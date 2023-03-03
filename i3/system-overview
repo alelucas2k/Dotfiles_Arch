@@ -1,0 +1,137 @@
+### Neuromask connky config
+
+conky.config = {
+
+-- COLORS
+
+color1 = '0db9d7', -- Debian Red
+color2 = 'fa7ef8', -- Tan 1
+color3 = 'ede410', -- Orange
+
+--set to = true if you want Conky to be forked in the background
+background = true, -- set to false when editing for errors
+
+own_window = true,
+own_window_type = 'override',
+own_window_transparent = true,
+own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+own_window_argb_visual = true,
+own_window_argb_value = 128,
+out_to_console = false,
+use_xft = true,
+
+font = 'Hack:size=9:antialias=true',
+font2 = 'Hack:size=10:antialias=true',
+font3 = 'Hack:size=8:antialias=true',
+update_interval = 1,
+
+--This is the number of times Conky will update before quitting
+--Set to zero to run forever.
+--total_run_times 0
+
+--Create own window instead of using desktop (required in nautilus)
+own_window = true,
+
+--Use double buffering (reduces flicker, may not work for everyone)
+double_buffer = true,
+maximum_width = 320,
+
+draw_shades = false,
+
+--Draw outlines?
+draw_outline = false,
+
+--Draw borders around text
+draw_borders = false,
+
+--Stippled borders?
+stippled_borders = 1,
+
+--border width
+border_width = 20,
+
+--Default colors and also border colors
+default_color = 'white',
+default_shade_color = 'white',
+default_outline_color = 'white',
+
+--Text alignment, other possible values are commented
+alignment = 'top_right',
+
+--Gap between borders of screen and text
+gap_x = 48,
+gap_y = 64,
+
+--Add spaces to keep things from moving about?  This only affects certain objects.
+use_spacer = 'left',
+
+--Subtract file system buffers from used memory?
+no_buffers = true,
+--no_buffers = false,
+
+--set to = true if you want all text to be in uppercase
+uppercase = false,
+
+default_bar_width = 140,
+default_bar_height = 6
+}
+
+conky.text = [[
+#leet chars: ┤┤└└┴┴┐┐││┘┘┌┌├├┬┬┼┼┴┴── ││ ▽▼△▲▵▴▾▿
+
+${alignr}${offset -6}
+${alignr}${offset -6}${execi 6000 lsb_release -d | grep 'Descr'|awk {'print $2 " " $3" " $4" " $5'}}
+${alignr}${offset -6}└──────────┐
+${alignr}${offset -6}< ${kernel} > Kernel ─┤   │
+${alignr}${offset -6}< ${uptime_short} > Uptime ─┤   │
+${alignr}${offset -6}< ${execi 14400 checkupdates | wc -l} > updates ─┘   │
+${alignr}${offset -6}│
+${alignr}${offset -6}system ─┤
+${alignr}${offset -6}< ${execi 6000 cat /proc/cpuinfo|grep 'model name'|sed -e 's/model name.*: //'| uniq | cut -c 1-39} > CPU ─┤   │
+${alignr}${offset -6}< ${freq_g} GHz (${cpu}%) > Usage ─┤   │
+${alignr}${offset -6}│   │   │
+${alignr}${offset -6}< $loadavg > load ─┤   │   │
+${alignr}${offset -6}< ${top name 01} ${top cpu 1} > ─┤   │   │
+${alignr}${offset -6}< ${top name 02} ${top cpu 2} > ─┤   │   │
+${alignr}${offset -6}< ${top name 03} ${top cpu 3} > ─┤   │   │
+${alignr}${offset -6}< ${top name 04} ${top cpu 4} > ─┤   │   │
+${alignr}${offset -6}< ${top name 05} ${top cpu 5} > ─┘   │   │
+${alignr}${offset -6}│   │
+${alignr}${offset -6}│   │
+${alignr}${offset -6}Memory ─┤   │
+${alignr}${offset -6}< $memperc% > used ─┤   │   │
+${alignr}${offset -6}< $mem/$memmax > ─┤   │   │
+${alignr}${offset -6}< ${membar 5,120} > ─┤   │   │
+${alignr}${offset -6}< ${top_mem name 1} ${top_mem mem_res 1} > ─┤   │   │
+${alignr}${offset -6}< ${top_mem name 2} ${top_mem mem_res 2} > ─┤   │   │
+${alignr}${offset -6}< ${top_mem name 3} ${top_mem mem_res 3} > ─┤   │   │
+${alignr}${offset -6}< ${top_mem name 4} ${top_mem mem_res 4} > ─┤   │   │
+${alignr}${offset -6}< ${top_mem name 5} ${top_mem mem_res 5} > ─┘   │   │
+${alignr}${offset -6}│   │
+${alignr}${offset -6}Processes ─┤   │
+${alignr}${offset -6}< $processes > ─ < $running_processes > ─┘   │   │
+${alignr}${offset -6}│   │
+${alignr}${offset -6}│   │
+${alignr}${offset -6}Temperatures ─┤   │
+${alignr}${offset -6}< ${execi 5 sensors | grep Tctl: | cut -c 16-19}°C cpu ─┤   │   │
+${alignr}${offset -6}< ${execi 5 sensors | grep edge: | cut -c 16-19} °C gpu ─┤   │   │
+${alignr}${offset -6}< ${execi 5 sensors | grep Composite: | cut -c 16-19}°C ssd ─┘   │   │
+${alignr}${offset -6}│   │
+${alignr}${offset -6}│   │
+${alignr}${offset -6}Disk Usage ─┘   │
+${alignr}${offset -6}< $diskio_read >  read ─┤       │
+${alignr}${offset -6}< $diskio_write > write ─┤       │
+${alignr}${offset -6}< $swap/$swapmax swap ─┤       │
+${alignr}${offset -6}< ${swapbar 5,120} > ─┘     │       │
+${alignr}${offset -6}< ${fs_used /}/${fs_size /} > /root ─┤       │
+${alignr}${offset -6}< ${fs_bar 5,120 /} > ─┘     │       │
+${alignr}${offset -6}< ${fs_used /mnt/wd1tb}/${fs_size /mnt/wd1tb} > /WD ─┘       │
+${alignr}${offset -6}< ${fs_bar 5,120 /mnt/wd1tb} > ─┘             │
+${alignr}${offset -6}│
+${alignr}${offset -6}Network ─┘
+${alignr}${offset -32}< $nodename > hostname ─┤
+${alignr}${offset -32}< ${downspeed enp34s0} k/s > download ─┤
+${alignr}${offset -32}< ${downspeedgraph enp34s0 12,120 136311 11B014} > ─┘    │
+${alignr}${offset -32}< ${upspeed enp34s0} k/s >   upload ─┘
+${alignr}${offset -62}< ${upspeedgraph enp34s0 12,120 BA0B0B FC0707} > ─┘
+]];
